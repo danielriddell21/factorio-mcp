@@ -1,0 +1,1 @@
+/silent-command if remote.interfaces["factorio_mcp"] and remote.interfaces["factorio_mcp"]["dispatch"] then rcon.print(remote.call("factorio_mcp", "dispatch", '__PAYLOAD__')) else rcon.print('{"ok":false,"error":"mod_not_loaded","detail":"the factorio_mcp mod is not installed or enabled in this save"}') end

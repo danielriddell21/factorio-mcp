@@ -1,0 +1,15 @@
+# Build artifacts
+/bin/
+/dist/
+
+# Go
+*.test
+*.out
+/coverage.*
+
+# Fuzz corpus cache
+/internal/**/testdata/fuzz/
+
+# Editor / OS
+.DS_Store
+*.swp
