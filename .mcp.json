@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "factorio": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/bin/factorio-mcp",
+      "args": [],
+      "env": {
+        "FACTORIO_RCON_HOST": "${FACTORIO_RCON_HOST:-127.0.0.1}",
+        "FACTORIO_RCON_PORT": "${FACTORIO_RCON_PORT:-27015}",
+        "FACTORIO_RCON_PASSWORD": "${FACTORIO_RCON_PASSWORD}"
+      }
+    }
+  }
+}

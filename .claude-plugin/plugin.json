@@ -1,0 +1,11 @@
+{
+  "name": "factorio",
+  "version": "0.1.0",
+  "description": "Play Factorio 2.0 with Claude: an MCP server + companion mod that let Claude perceive game state and drive a legit-economy playthrough toward launching a rocket, plus skills that encode the strategy.",
+  "author": {
+    "name": "danielriddell21"
+  },
+  "homepage": "https://github.com/danielriddell21/factorio-mcp",
+  "repository": "https://github.com/danielriddell21/factorio-mcp",
+  "license": "MIT"
+}

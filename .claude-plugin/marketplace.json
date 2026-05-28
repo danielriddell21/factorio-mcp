@@ -1,0 +1,14 @@
+{
+  "name": "factorio-mcp",
+  "owner": {
+    "name": "danielriddell21",
+    "url": "https://github.com/danielriddell21"
+  },
+  "plugins": [
+    {
+      "name": "factorio",
+      "source": "./",
+      "description": "Play Factorio 2.0 with Claude via an MCP server, a companion mod, and strategy skills."
+    }
+  ]
+}
