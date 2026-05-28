@@ -1,0 +1,9 @@
+{
+  "name": "factorio_mcp",
+  "version": "0.1.0",
+  "title": "Factorio MCP Bridge",
+  "author": "danielriddell21",
+  "factorio_version": "2.0",
+  "description": "Exposes a remote interface so an MCP server can read game state and issue high-level actions over RCON, letting an LLM play Factorio.",
+  "dependencies": ["base >= 2.0.0"]
+}
