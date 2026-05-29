@@ -3,8 +3,10 @@
 A Claude Code plugin that lets Claude play **Factorio 2.0** (base game, no Space
 Age) and work toward **launching a rocket** — under the real game economy.
 
-Instead of a fixed scripted strategy, the brain is an LLM: Claude perceives live
-game state, reasons about it, acts, and recovers from the unexpected.
+Inspired by "Factorio plays itself" Lua-scripting demos like
+[this one](https://youtu.be/uU06vKlCNXk), but instead of a fixed scripted
+strategy the brain is an LLM: Claude perceives live game state, reasons about it,
+acts, and recovers from the unexpected.
 
 ## How it works
 
