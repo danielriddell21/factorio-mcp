@@ -1,5 +1,11 @@
 # factorio-mcp
 
+[![CI](https://github.com/danielriddell21/factorio-mcp/actions/workflows/ci.yaml/badge.svg)](https://github.com/danielriddell21/factorio-mcp/actions/workflows/ci.yaml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=danielriddell21_factorio-mcp&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=danielriddell21_factorio-mcp)
+[![codecov](https://codecov.io/gh/danielriddell21/factorio-mcp/graph/badge.svg)](https://codecov.io/gh/danielriddell21/factorio-mcp)
+[![Go 1.26](https://img.shields.io/badge/go-1.26-blue)](https://go.dev)
+[![MIT License](https://img.shields.io/badge/licence-MIT-green)](LICENSE)
+
 A Claude Code plugin that lets Claude play **Factorio 2.0** (base game, no Space
 Age) and work toward **launching a rocket** — under the real game economy.
 
@@ -38,6 +44,13 @@ Actions: `place_entity`, `remove_entity`, `set_recipe`, `insert_items`,
 
 All are exposed as MCP tools prefixed `factorio_`.
 
+## Install
+
+### Homebrew
+```sh
+brew install danielriddell21/tap/factorio-mcp
+```
+
 ## Quickstart
 
 See [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — install the mod, enable RCON,
@@ -69,5 +82,5 @@ just mod-zip  # package the mod
 just ci       # fmt-check + vet + test
 ```
 
-Requires Go 1.25+. The Factorio side can't run in CI; verify it with the
+Requires Go 1.26+. The Factorio side can't run in CI; verify it with the
 quickstart smoke test.
