@@ -62,3 +62,5 @@ brews:
     commit_msg_template: "Brew formula update for factorio-mcp {{ .Tag }}"
     install: |
       bin.install "factorio-mcp"
+    test: |
+      system "#{bin}/factorio-mcp", "--version"
