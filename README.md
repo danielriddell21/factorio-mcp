@@ -1,86 +1,70 @@
 # factorio-mcp
 
 [![CI](https://github.com/danielriddell21/factorio-mcp/actions/workflows/ci.yaml/badge.svg)](https://github.com/danielriddell21/factorio-mcp/actions/workflows/ci.yaml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=danielriddell21_factorio-mcp&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=danielriddell21_factorio-mcp)
 [![codecov](https://codecov.io/gh/danielriddell21/factorio-mcp/graph/badge.svg)](https://codecov.io/gh/danielriddell21/factorio-mcp)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=danielriddell21_factorio-mcp&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=danielriddell21_factorio-mcp)
 [![Go 1.26](https://img.shields.io/badge/go-1.26-blue)](https://go.dev)
 [![MIT License](https://img.shields.io/badge/licence-MIT-green)](LICENSE)
 
-A Claude Code plugin that lets Claude play **Factorio 2.0** (base game, no Space
-Age) and work toward **launching a rocket** — under the real game economy.
+A Claude Code plugin that lets Claude play Factorio 2.0 (base game, no Space Age) and work toward launching a rocket. Claude perceives live game state over RCON, reasons about it, and acts — under the real game economy, so placing a building consumes a crafted item and crafting and research take real time and ingredients.
 
-Inspired by "Factorio plays itself" Lua-scripting demos like
-[this one](https://youtu.be/uU06vKlCNXk), but instead of a fixed scripted
-strategy the brain is an LLM: Claude perceives live game state, reasons about it,
-acts, and recovers from the unexpected.
+Factorio can't run in CI, so setup is a manual path on your own machine.
 
-## How it works
+## 1. Install the companion mod
 
+Copy or symlink `mod/factorio_mcp` into your Factorio mods folder:
+
+| OS | Mods folder |
+| --- | --- |
+| Windows | `%APPDATA%\Factorio\mods` |
+| macOS | `~/Library/Application Support/factorio/mods` |
+| Linux | `~/.factorio/mods` |
+
+```sh
+ln -s "$(pwd)/mod/factorio_mcp" "<MODS_DIR>/factorio_mcp"
+# or package a zip: just mod-zip
 ```
-Claude Code ──stdio──> Go MCP server ──RCON/TCP──> Factorio + companion mod
+
+Start Factorio, open **Mods**, enable **Factorio MCP Bridge**, restart if asked.
+
+## 2. Enable RCON
+
+Add to `config.ini` in Factorio's `config/` folder:
+
+```ini
+[other]
+local-rcon-socket=127.0.0.1:27015
+local-rcon-password=changeme
 ```
 
-- **Go MCP server** (`cmd/factorio-mcp`) exposes typed `factorio_*` tools and
-  talks to the game over RCON, one `/silent-command` per call.
-- **Companion mod** (`mod/factorio_mcp`) registers a `factorio_mcp` remote
-  interface with a clean named API (plus a guarded `eval` escape hatch) and
-  returns state as JSON.
-- **Skills** (`skills/`) encode the strategy: orientation, early bootstrap,
-  smelting, red/green/blue science, research progression, mall builds, rocket.
+## 3. Host a game
 
-The economy is **legit**: placing a building consumes a crafted item; crafting
-and research take real time and ingredients. Only navigation is a concession
-(`factorio_teleport`, since real-time pathfinding is out of scope).
+**Multiplayer → Host new game**: freeplay, peaceful / no enemies, Space Age off. Hosting is what opens the RCON socket — single-player does not.
 
-## Tools
+## 4. Run
 
-Introspection: `get_player_state`, `get_inventory`, `scan_entities`,
-`scan_resources`, `get_research_state`, `get_tech_tree`, `get_production_stats`,
-`get_recipe_info`.
-
-Actions: `place_entity`, `remove_entity`, `set_recipe`, `insert_items`,
-`remove_items`, `craft`, `set_research`, `queue_research`, `teleport`,
-`mine_resource`. Optional cheat/debug: `eval` (off by default).
-
-All are exposed as MCP tools prefixed `factorio_`.
-
-## Install
-
-### Homebrew
 ```sh
 brew install danielriddell21/tap/factorio-mcp
-```
 
-## Quickstart
-
-See [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — install the mod, enable RCON,
-host a game, then:
-
-```sh
-just build
 export FACTORIO_RCON_PASSWORD=changeme
-./bin/factorio-mcp
+factorio-mcp
 ```
 
-## Configuration
+Or from a clone: `just build && ./bin/factorio-mcp`. With the plugin installed, `.mcp.json` launches the binary automatically as long as `FACTORIO_RCON_PASSWORD` is set.
 
 | Env var | Default | Meaning |
 | --- | --- | --- |
 | `FACTORIO_RCON_HOST` | `127.0.0.1` | RCON host |
 | `FACTORIO_RCON_PORT` | `27015` | RCON port |
 | `FACTORIO_RCON_PASSWORD` | _(required)_ | RCON password |
-| `FACTORIO_MCP_ALLOW_EVAL` | _(unset)_ | set to enable the `eval` cheat tool |
+| `FACTORIO_MCP_ALLOW_EVAL` | _(unset)_ | Set to enable the `eval` cheat tool |
 
-## Development
+Ask Claude for `factorio_get_player_state` — if it returns your position, the Claude → MCP → RCON → mod chain is live.
 
-```sh
-just test     # unit + integration tests (no game required)
-just fuzz     # fuzz the Lua escaping
-just vet      # go vet
-just fmt      # gofmt -s -w
-just mod-zip  # package the mod
-just ci       # fmt-check + vet + test
-```
+## Troubleshooting
 
-Requires Go 1.26+. The Factorio side can't run in CI; verify it with the
-quickstart smoke test.
+- `mod_not_loaded` — the mod isn't enabled in the active save.
+- Connection errors — RCON off, wrong port/password, or the game isn't hosted.
+- `missing item to place` — legit economy: craft or obtain the item first.
+
+Requires Go 1.26+.
