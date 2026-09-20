@@ -1,6 +1,6 @@
 module github.com/danielriddell21/factorio-mcp
 
-go 1.26.3
+go 1.27.1
 
 require (
 	github.com/gorcon/rcon v1.4.0
